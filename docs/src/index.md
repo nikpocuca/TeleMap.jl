@@ -1,3 +1,6 @@
 # TeleMap
 
-*Documentation goes here.*
+
+```@docs
+load_tele()
+```

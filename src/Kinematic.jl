@@ -92,7 +92,8 @@ mutable struct KinematicEvents<:TelemetricEvents
     vels::Array{Float64,1}
     aecs::Array{Float64,1}
     speedtype::SpeedType
-    function KinematicEvents(vels::Array{Float64,1},aecs::Array{Float64,1} ,speedtype::SpeedType)
+    tstamps::Array{DateTime,1}
+    function KinematicEvents(vels::Array{Float64,1},aecs::Array{Float64,1} ,speedtype::SpeedType,tstamps::Array{DateTime,1})
         if(size(vels,1) != size(aecs,1))
             error("Vels and Aecs must be the same size ")
         end
@@ -104,7 +105,7 @@ mutable struct KinematicEvents<:TelemetricEvents
         end
 
         # return KinematicEvents
-        kes = new(vels,aecs,speedtype);
+        kes = new(vels,aecs,speedtype,tstamps);
         return (kes);
     end
 end
@@ -152,9 +153,24 @@ mutable struct KinematicMap <: TelemetricMap
     end # End of Constructor
 end # End of mutable struct
 
+
 # Import plotting function
 import Plots:plot
+"""
+plots the KinematicMap
 
+# example
+
+    using Rmath
+
+    x = rnorm(100) |> x - > abs.(x)
+    y = rnorm(100)
+
+    kes = KinematicEvents(x,y KMH())
+    tele_map = KinematicMap(kes,[0.0,1.0],[-1.0,1.0])
+
+    plot(tele_map)
+"""
 function plot(km::KinematicMap)
     x_h::Float64 = (km.vel_bounds[2] - km.vel_bounds[1])/100
     y_h::Float64 = (km.aec_bounds[2] - km.aec_bounds[1])/100
@@ -164,6 +180,33 @@ function plot(km::KinematicMap)
     ik = InterpKDE(km.kernel);
     contour(xy_grid[1],xy_grid[2],pdf(ik,xy_grid[1],xy_grid[2]))
 end
+
+
+
+"""
+DeviationEvents structure
+
+Identify the deviational telemtric events at a power level α
+
+contains:
+events, original events
+map, KinematicMap
+deviants, deviant KinematicEvents
+p_kernel, UnivariateKDE used to calculate
+
+"""
+mutable struct DeviationEvents <: TelemetricEvents
+    α::Float64 # power level alpha, default is usually 0.05
+    events::KinematicEvents
+    map::KinematicMap
+    deviants::KinematicEvents
+    p_kernel::UnivariateKDE
+    function DeviationEvents(events,map,α = 0.05)
+        p_is::Array{Float64,1} = map( (v,a) -> pdf(map.kernel,v,a), events.vels,events.aecs)
+
+    end
+end
+
 
 
 #=

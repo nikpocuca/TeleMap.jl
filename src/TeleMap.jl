@@ -1,12 +1,10 @@
 module TeleMap
 
 	abstract type TelemetricMap end;
+	abstract type TelemetricEvent end;
+	abstract type TelemetricEvents end;
 
-	"""
-	"Loading telemetric function 
-	"""
-	function load_tele()
-	
-	end 
+	include("Kinematic.jl")
+
 
 end # module

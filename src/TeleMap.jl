@@ -5,9 +5,9 @@ module TeleMap
 	abstract type TelemetricEvents end;
 	abstract type SpeedType end;
 
-	import Plots, Dates, KernelDensity, Plots, Rmath, DataFrames, Query
+	import Dates, KernelDensity, Rmath, DataFrames, Query, RecipesBase
 
-	export KinematicEvent, KinematicEvents, KinematicMap, DeviationEvents, plot
+	export KinematicEvent, KinematicEvents, KinematicMap, DeviationEvents
 
 	include("Kinematic.jl")
 

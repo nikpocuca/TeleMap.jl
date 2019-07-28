@@ -1,7 +1,7 @@
 # Kinematic julia code for the purposes of analyzing telemtric data pertaining to speed,
 # acceleration and other measurements dealing of the kinematic nature.
 
-using Dates, KernelDensity, Plots, Rmath, DataFrames, Query
+using Dates, KernelDensity, RecipesBase, Rmath, DataFrames, Query
 
 struct KMH <: SpeedType end;
 struct MPH <: SpeedType end;
@@ -128,23 +128,20 @@ function Base.show(io::IO, kes::KinematicEvents)
 end
 
 
-
-
-
-
-function plot(ev::KinematicEvents)
+@recipe function plot(ev::KinematicEvents)
     vels::Array{Float64,1} = ev.vels;
     aecs::Array{Float64,1} = ev.aecs;
-    scatter(vels,aecs);
+    seriestype := :scatter
+    vels, aecs ;
 end
 
-
-function plot!(ev::KinematicEvents)
+#=
+@recipe function plot!(ev::KinematicEvents)
     vels::Array{Float64,1} = ev.vels;
     aecs::Array{Float64,1} = ev.aecs;
     scatter!(vels,aecs);
 end
-
+=#
 
 
 
@@ -204,8 +201,6 @@ mutable struct KinematicMap <: TelemetricMap
 end # End of mutable struct
 
 
-# Import plotting function
-import Plots:plot
 """
 plots the KinematicMap
 
@@ -221,16 +216,23 @@ plots the KinematicMap
 
     plot(tele_map)
 """
-function plot(km::KinematicMap)
+@recipe function plot(km::KinematicMap)
     x_h::Float64 = (km.vel_bounds[2] - km.vel_bounds[1])/100
     y_h::Float64 = (km.aec_bounds[2] - km.aec_bounds[1])/100
     xy_grid = (km.vel_bounds[1]:x_h:km.vel_bounds[2],
                 km.aec_bounds[1]:y_h:km.aec_bounds[2])
     # Interpolate
     ik = InterpKDE(km.kernel);
-    heatmap(xy_grid[1],xy_grid[2],pdf(ik,xy_grid[1],xy_grid[2])',fill = true,color = :plasma)
-end
 
+    seriestype := :heatmap
+    color --> :plasma
+    fill := true
+
+    z = pdf(ik,xy_grid[1],xy_grid[2])'
+
+    xy_grid[1],xy_grid[2],z
+end
+#=
 """
 Overlays plot KinematicMap, only one input so far.
 
@@ -255,7 +257,7 @@ function plot!(km::KinematicMap)
     ik = InterpKDE(km.kernel);
     contour!(xy_grid[1],xy_grid[2],pdf(ik,xy_grid[1],xy_grid[2]))
 end
-
+=#
 
 
 """
@@ -323,21 +325,24 @@ end
 """
 Plots deviation events, only one input so far.
 """
-function plot(dev::DeviationEvents)
+@recipe function plot(dev::DeviationEvents)
     vels::Array{Float64,1} = dev.deviants.vels;
     aecs::Array{Float64,1} = dev.deviants.aecs;
-    scatter(vels,aecs, markersize = 2);
+    seriestype := :scatter
+    markersize --> 2
+    vels, aecs
 end
 
 """
 Overlays plot deviation events, only one input so far.
 """
+#=
 function plot!(dev::DeviationEvents)
     vels::Array{Float64,1} = dev.deviants.vels;
     aecs::Array{Float64,1} = dev.deviants.aecs;
     scatter!(vels,aecs,markersize = 2);
 end
-
+=#
 
 #=
 

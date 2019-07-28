@@ -375,7 +375,7 @@ scatter!(de.d)
 
 #=
 # Example with real data
-using CSV, Plots 
+using CSV, Plots
 
 te = CSV.read("/Users/pocucan/Downloads/2011-08-25.csv")
 te = CSV.read("/Users/nik/Downloads/2011-08-25.csv")

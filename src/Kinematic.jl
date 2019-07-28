@@ -32,6 +32,18 @@ mutable struct KinematicEvent <: TelemetricEvent
 end
 
 
+function Base.show(io::IO, ke::KinematicEvent)
+    println(io, "---------------------------")
+    println(io, "KinematicEvent object");
+    println(io, "---------------------------")
+    println(io, "Velocity: ", ke.vel);
+    println(io, "Acceleration: ", ke.aec);
+    println(io, "Timestamp: ", ke.t);
+    println(io, "SpeedType: ", ke.speedtype);
+end
+
+
+
 """
 Convert!(from::KMH,to::MPH,ke::KinematicEvent)
 
@@ -106,6 +118,18 @@ mutable struct KinematicEvents<:TelemetricEvents
         return (kes);
     end
 end
+
+function Base.show(io::IO, kes::KinematicEvents)
+    println(io, "---------------------------")
+    println(io, "KinematicEvents object");
+    println(io, "---------------------------")
+    println(io, "No. Events: ", (kes.vels |> size)[1] );
+    println(io, "SpeedType: ", kes.speedtype);
+end
+
+
+
+
 
 
 function plot(ev::KinematicEvents)
@@ -206,7 +230,21 @@ function plot(km::KinematicMap)
     heatmap(xy_grid[1],xy_grid[2],pdf(ik,xy_grid[1],xy_grid[2])',fill = true,color = :plasma)
 end
 
+"""
+Overlays plot KinematicMap, only one input so far.
 
+# example
+
+    using Rmath
+
+    x = rnorm(100) |> x - > abs.(x)
+    y = rnorm(100)
+
+    kes = KinematicEvents(x,y KMH())
+    tele_map = KinematicMap(kes,[0.0,1.0],[-1.0,1.0])
+
+    plot!(tele_map)
+"""
 function plot!(km::KinematicMap)
     x_h::Float64 = (km.vel_bounds[2] - km.vel_bounds[1])/100
     y_h::Float64 = (km.aec_bounds[2] - km.aec_bounds[1])/100
@@ -281,14 +319,18 @@ mutable struct DeviationEvents <: TelemetricEvents
     end
 end
 
-
+"""
+Plots deviation events, only one input so far.
+"""
 function plot(dev::DeviationEvents)
     vels::Array{Float64,1} = dev.deviants.vels;
     aecs::Array{Float64,1} = dev.deviants.aecs;
     scatter(vels,aecs, markersize = 2);
 end
 
-
+"""
+Overlays plot deviation events, only one input so far.
+"""
 function plot!(dev::DeviationEvents)
     vels::Array{Float64,1} = dev.deviants.vels;
     aecs::Array{Float64,1} = dev.deviants.aecs;

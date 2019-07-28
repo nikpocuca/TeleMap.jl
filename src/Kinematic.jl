@@ -196,8 +196,9 @@ mutable struct KinematicMap <: TelemetricMap
 
             km::KinematicMap = new(vel_bounds,aec_bounds,kernel,events);
             return (km);
-        catch
-            error("Kernel KernelDensity estimation failed, try using debugger and entering the function")
+        catch e
+            println("ERROR: $e")
+            error("KinematicMap construction failed, try using debugger and entering the function")
         end # End of try catch statement
     end # End of Constructor
 end # End of mutable struct

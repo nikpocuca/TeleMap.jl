@@ -1,0 +1,6 @@
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+.DS_STORE
+/deps/deps.jl
+/docs/build

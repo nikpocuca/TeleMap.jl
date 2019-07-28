@@ -1,7 +1,7 @@
 # Kinematic julia code for the purposes of analyzing telemtric data pertaining to speed,
 # acceleration and other measurements dealing of the kinematic nature.
 
-using Dates, KernelDensity, Plots, Rmath, Roots, DataFrames, Query
+using Dates, KernelDensity, Plots, Rmath, DataFrames, Query
 
 struct KMH <: SpeedType end;
 struct MPH <: SpeedType end;

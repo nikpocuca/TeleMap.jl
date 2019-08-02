@@ -1,5 +1,5 @@
 # TeleMap.jl
-Driving style and deivation analysis for telemetric data. 
+Driving style and deivation analysis for telemetric data.  
 ![Lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)<!--
 ![Lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg)

@@ -201,6 +201,15 @@ mutable struct KinematicMap <: TelemetricMap
 end # End of mutable struct
 
 
+function Base.show(io::IO, map::KinematicMap)
+    println(io, "---------------------------")
+    println(io, "KinematicMap object");
+    println(io, "---------------------------")
+    println(io, "Velocity from $(map.vel_bounds[1]) to $(map.vel_bounds[2])");
+    println(io, "Acceleration from $(map.aec_bounds[1]) to $(map.aec_bounds[2])")
+    println(io, "No. Events: ", (map.events.vels |> size)[1] );
+    println(io, "SpeedType: ", map.events.speedtype);
+end
 """
 plots the KinematicMap
 
@@ -322,6 +331,17 @@ mutable struct DeviationEvents <: TelemetricEvents
     end
 end
 
+function Base.show(io::IO, dev::DeviationEvents)
+    println(io, "---------------------------")
+    println(io, "DeviationEvents object");
+    println(io, "---------------------------")
+    println(io, "α-level: $(dev.α)");
+    println(io, "No. Deviant Events: ", (dev.deviants.vels |> size)[1] );
+    println(io, "SpeedType: ", dev.deviants.speedtype);
+end
+
+
+
 """
 Plots deviation events, only one input so far.
 """
@@ -333,9 +353,7 @@ Plots deviation events, only one input so far.
     vels, aecs
 end
 
-"""
-Overlays plot deviation events, only one input so far.
-"""
+
 #=
 function plot!(dev::DeviationEvents)
     vels::Array{Float64,1} = dev.deviants.vels;

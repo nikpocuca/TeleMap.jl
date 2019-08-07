@@ -9,3 +9,12 @@ Driving style and deivation analysis for telemetric data.
 ![Lifecycle](https://img.shields.io/badge/lifecycle-dormant-blue.svg) -->
 [![Build Status](https://travis-ci.com/nikpocuca/TeleMap.jl.svg?branch=master)](https://travis-ci.com/nikpocuca/TeleMap.jl)
 [![codecov.io](http://codecov.io/github/nikpocuca/TeleMap.jl/coverage.svg?branch=master)](http://codecov.io/github/nikpocuca/TeleMap.jl?branch=master)
+
+![](docs/src/ex.png)
+![](docs/src/contour.png)
+
+## Installation
+
+```julia
+add https://github.com/nikpocuca/TeleMap.jl
+```

@@ -14,6 +14,11 @@ A basic structure for velocity, acceleration and timestamp.
 
 Velocity must be positive!
 
+Constructor: 
+
+	KinematicEvent(vel::Float64, aec::Float64, t::DateTime, speedtype::SpeedType)
+
+
 """
 mutable struct KinematicEvent <: TelemetricEvent
     vel::Float64 # velocity
@@ -96,6 +101,10 @@ Velocity must be positive!
 
 extension of the single Kinematic Event to incorproate multiple kinematic events
 
+Constructor: 
+
+	KinematicEvents(vels::Array{Float64,1},aecs::Array{Float64,1} ,speedtype::SpeedType,tstamps::Array{DateTime,1})
+
 """
 mutable struct KinematicEvents<:TelemetricEvents
     vels::Array{Float64,1}
@@ -148,6 +157,10 @@ vel bounds , lower and upper bound for velocity
 aec bounds , lower and upper bound acceleration
 
 kernel , BivariateKDE
+
+Constructor: 
+
+	KinematicMap(kes::KinematicEvents,vel_bounds::Array{Float64,1}, aec_bounds::Array{Float64,1})
 
 """
 mutable struct KinematicMap <: TelemetricMap

@@ -1,4 +1,4 @@
-using Documenter, TeleMap
+using Documenter, TeleMap, Dates
 
 makedocs(
     modules = [TeleMap],

@@ -7,7 +7,7 @@ module TeleMap
 
 	import Dates, KernelDensity, Rmath, DataFrames, Query, RecipesBase
 
-	export KinematicEvent, KinematicEvents, KinematicMap, DeviationEvents, MPH, KMH
+	export TelemetricMap, TelemetricEvent, TelemetricEvents, SpeedType, KinematicEvent, KinematicEvents, KinematicMap, DeviationEvents, MPH, KMH
 
 	include("Kinematic.jl")
 

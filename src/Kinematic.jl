@@ -135,13 +135,6 @@ end
     vels, aecs ;
 end
 
-#=
-@recipe function plot!(ev::KinematicEvents)
-    vels::Array{Float64,1} = ev.vels;
-    aecs::Array{Float64,1} = ev.aecs;
-    scatter!(vels,aecs);
-end
-=#
 
 
 
@@ -299,11 +292,9 @@ mutable struct DeviationEvents <: TelemetricEvents
             p_kernel.density = p_kernel.density ./ (p_kernel.density |> sum)
             # offset range due to weird left bound
             offset_p = abs(p_kernel.x[1])
-
-            if(p_kernel.x[1] < 0)
-                p_kernel.x = p_kernel.x .+ offset_p;
-            end
-
+	    # check bound and push 
+	    p_kernel.x[1] < 0 ? (p_kernel.x .+ offset_p) : nothing ;  
+		 
             # Get devient events by solving for the function
             function GetStar()
                 for i in 1:size(p_kernel.density,1)

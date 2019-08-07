@@ -1,9 +1,9 @@
 # TeleMap.jl
 
+A package for the creation and analysis of telemetric heat maps.
+
 ![](p2.png)
 ![](p3.png)
-
-A package for the creation and analysis of telemetric heat maps.
 
 ## Kinematic Maps
 

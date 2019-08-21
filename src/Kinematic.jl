@@ -308,7 +308,7 @@ mutable struct DeviationEvents <: TelemetricEvents
 	    # check bound and push
         domain_x = convert(Array{Float64,1}, p_kernel.x)
 
-	    p_kernel.x[1] < 0 ? (p_kernel.x = (domain_x .+ offset_p)): nothing ;
+	    p_kernel.x[1] < 0 ? (p_kernel.x = (domain_x .+ offset_p)) : nothing ;
 
             # Get devient events by solving for the function
             function GetStar()

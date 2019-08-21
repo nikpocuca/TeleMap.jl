@@ -14,7 +14,7 @@ A basic structure for velocity, acceleration and timestamp.
 
 Velocity must be positive!
 
-Constructor: 
+Constructor:
 
 	KinematicEvent(vel::Float64, aec::Float64, t::DateTime, speedtype::SpeedType)
 
@@ -101,7 +101,7 @@ Velocity must be positive!
 
 extension of the single Kinematic Event to incorproate multiple kinematic events
 
-Constructor: 
+Constructor:
 
 	KinematicEvents(vels::Array{Float64,1},aecs::Array{Float64,1} ,speedtype::SpeedType,tstamps::Array{DateTime,1})
 
@@ -158,7 +158,7 @@ aec bounds , lower and upper bound acceleration
 
 kernel , BivariateKDE
 
-Constructor: 
+Constructor:
 
 	KinematicMap(kes::KinematicEvents,vel_bounds::Array{Float64,1}, aec_bounds::Array{Float64,1})
 
@@ -305,9 +305,11 @@ mutable struct DeviationEvents <: TelemetricEvents
             p_kernel.density = p_kernel.density ./ (p_kernel.density |> sum)
             # offset range due to weird left bound
             offset_p = abs(p_kernel.x[1])
-	    # check bound and push 
-	    p_kernel.x[1] < 0 ? (p_kernel.x .+ offset_p) : nothing ;  
-		 
+	    # check bound and push
+        domain_x = convert(Array{Float64,1}, p_kernel.x)
+
+	    p_kernel.x[1] < 0 ? (p_kernel.x = (domain_x .+ offset_p)): nothing ;
+
             # Get devient events by solving for the function
             function GetStar()
                 for i in 1:size(p_kernel.density,1)
@@ -323,7 +325,7 @@ mutable struct DeviationEvents <: TelemetricEvents
 
             # get all p_is less than the zero_star
             # offset p_is
-            p_is = p_is .+ offset_p
+            #p_is = p_is .+ offset_p
             checks_p = p_is .< p_zero_star;
             deviants = KinematicEvents(ev.vels[checks_p],ev.aecs[checks_p],ev.speedtype,ev.tstamps[checks_p])
             de = new(α,events,bikernel,deviants,p_kernel,p_is,p_zero_star)

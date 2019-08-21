@@ -54,8 +54,8 @@ plot!(kes)
 Deviation analysis refers to the detection of deviant events. Using the heat maps and events, one can detect the α% of rarest events.
 
 ```julia
-
-
-dev = DeviationEvents(kmap.events,kmap.kernel,0.05)
-
+# let alpha = 0.05
+α = 0.05
+dev = DeviationEvents(kmap.events,kmap.kernel,α)
+plot!(dev.deviants)
 ```
